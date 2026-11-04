@@ -1,0 +1,72 @@
+PROMPT ONE
+Create an interactive educational web application titled **“Continuous Probability Distributions: Industry Applications”** for undergraduate AIML students.
+
+Build a clean, responsive interface with a home page and three modules:
+
+1. Normal Distribution — Manufacturing Quality Control
+2. Exponential Distribution — Cloud Request Inter-arrival Time
+3. Central Limit Theorem — Warehouse Processing Time
+
+Use simple language suitable for beginners. Each module must include:
+
+- Industry problem statement
+- Input parameters
+- Mathematical formula
+- Interactive calculation section
+- Dynamic visualization
+- Interpretation of results
+
+Use Python only if the chosen framework supports it; otherwise use the framework's native numerical and charting libraries. Implement the application using the existing project setup and do not introduce unnecessary dependencies.
+
+For now, create the navigation and page layouts. Do not implement all calculations yet.
+
+PROMPT TWO
+Implement the **Normal Distribution — Manufacturing Quality Control** module.
+
+Use this illustrative example:
+
+- Target shaft diameter: 10 mm
+- Mean diameter μ = 10 mm
+- Standard deviation σ = 0.05 mm
+- Lower specification limit = 9.90 mm
+- Upper specification limit = 10.10 mm
+
+Provide interactive inputs for μ, σ, lower limit, and upper limit.
+
+Calculate:
+
+1. Probability density at a selected diameter.
+2. Probability that diameter lies between the lower and upper specification limits.
+3. Probability of a diameter below the lower limit.
+4. Probability of a diameter above the upper limit.
+5. Expected percentage of defective products.
+
+Use the Normal CDF to calculate interval probabilities. Display a dynamic bell-shaped density curve and shade the acceptable region and the two defective regions in different colors.
+
+When any input changes, update the calculations and graph immediately. Validate that σ is positive and the lower limit is less than the upper limit.
+
+Display formulas, numerical answers, units, and a plain-language quality-control interpretation.
+
+PROMPT THREE
+Implement the Exponential Distribution — Cloud Request Inter-arrival Time module.
+
+Use an illustrative Poisson request-arrival rate of λ = 12 requests per minute.
+
+Allow students to change:
+
+- Arrival rate λ in requests per minute
+- Time threshold t in seconds
+
+Calculate:
+
+1. Mean inter-arrival time = 1/λ.
+2. Variance of inter-arrival time = 1/λ², using consistent units.
+3. P(T ≤ t) = 1 − exp(−λt).
+4. P(T > t) = exp(−λt).
+5. P(T > t₂ | T > t₁), where t₂ ≥ t₁.
+
+Convert seconds and minutes correctly before calculations. Display the exponential probability density curve and shade the relevant probability region.
+
+Explain the memoryless property in simple language. Validate all inputs and show units beside every result.
+
+Clearly state that the model assumes a constant-rate Poisson arrival process. Do not describe inter-arrival time as equivalent to server response time.
