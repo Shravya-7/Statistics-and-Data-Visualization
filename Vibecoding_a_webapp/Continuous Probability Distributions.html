@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Continuous Probability Distributions: Industry Applications</title>
+<style>
+:root {
+  --site-primary: #173f46;
+  --site-on-primary: #ffffff;
+  --site-secondary: #dcece7;
+  --site-on-secondary: #173f46;
+  --site-background: #f5f7f3;
+  --site-on-background: #172c2d;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --muted: #647775;
+  --line: #dfe7e1;
+  --surface: #ffffff;
+  --accent: #d4a65f;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--site-background); color: var(--site-on-background); font-family: var(--site-font-body); line-height: 1.6; }
+button, input { font: inherit; }
+#app { min-height: 100vh; background-color: var(--site-background); color: var(--site-on-background); border-radius: 0; }
+.topbar { background: var(--site-primary); color: var(--site-on-primary); }
+.topbar-inner { max-width: 1220px; margin: auto; padding: 17px 5%; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.brand { display: flex; align-items: center; gap: 11px; color: inherit; text-decoration: none; font-weight: 750; letter-spacing: -.035em; white-space: nowrap; }
+.brand-mark { width: 34px; height: 34px; border: 1px solid #ffffff55; border-radius: 11px; display: grid; place-items: center; color: #f0c987; font-size: 18px; }
+.brand small { display: block; color: #c3d7d1; font-size: .67rem; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; }
+nav { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+nav button { border: 0; color: #d5e3de; background: transparent; padding: 9px 13px; border-radius: 10px; cursor: pointer; font-size: .88rem; transition: .2s; }
+nav button:hover, nav button.active { color: #fff; background: #ffffff19; }
+nav button.active { box-shadow: inset 0 -2px #e4bd7c; }
+main { max-width: 1220px; margin: auto; padding: 44px 5% 76px; }
+.page { display: none; animation: appear .25s ease; }
+.page.active { display: block; }
+@keyframes appear { from { opacity: .45; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+.eyebrow { color: #a47738; font-size: .75rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+h1,h2,h3,p { margin-top: 0; }
+h1,h2,h3 { font-family: var(--site-font-heading); line-height: 1.15; letter-spacing: -.045em; }
+h1 { font-size: clamp(2.5rem, 6vw, 4.8rem); max-width: 800px; margin: 16px 0 18px; }
+h2 { font-size: calc(1.65rem * var(--site-heading-scale)); margin-bottom: 12px; }
+h3 { font-size: 1.08rem; margin-bottom: 9px; }
+.lead { max-width: 680px; color: var(--muted); font-size: 1.08rem; }
+.hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: 44px; align-items: center; padding: 28px 0 54px; }
+.hero-copy { padding: 12px 0; }
+.hero h1 span { color: #a47738; }
+.hero-visual { background: var(--site-secondary); border-radius: calc(28px * var(--site-radius-scale)); padding: 24px; min-height: 300px; position: relative; overflow: hidden; }
+.visual-label { display: flex; justify-content: space-between; gap: 10px; color: #45615c; font-size: .76rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.hero-visual svg { width: 100%; height: 225px; display: block; margin-top: 8px; }
+.hero-note { position: absolute; bottom: 18px; right: 22px; color: #45615c; font-size: .75rem; }
+.primary-btn,.secondary-btn { border: 0; border-radius: 12px; padding: 12px 18px; font-weight: 700; cursor: pointer; transition: .2s; }
+.primary-btn { background: var(--site-primary); color: white; }
+.primary-btn:hover { background: #245760; transform: translateY(-1px); }
+.secondary-btn { background: #fff; border: 1px solid var(--line); color: var(--site-primary); }
+.hero-actions { display: flex; gap: 11px; flex-wrap: wrap; margin-top: 27px; }
+.section-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin: 10px 0 22px; }
+.section-head p { color: var(--muted); margin: 0; max-width: 500px; }
+.module-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 17px; }
+.module-card { background: var(--surface); border: 1px solid var(--line); border-radius: calc(19px * var(--site-radius-scale)); padding: 23px; display: flex; flex-direction: column; min-height: 240px; box-shadow: 0 9px 28px #193b3508; }
+.module-number { color: #9b743e; font-size: .74rem; font-weight: 800; letter-spacing: .12em; }
+.module-icon { width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center; background: var(--site-secondary); color: var(--site-primary); font-size: 1.2rem; margin: 16px 0; }
+.module-card p { color: var(--muted); font-size: .9rem; margin-bottom: 22px; }
+.card-link { margin-top: auto; align-self: flex-start; border: 0; background: none; color: var(--site-primary); font-weight: 750; cursor: pointer; padding: 0; }
+.card-link span { margin-left: 5px; }
+.learning-note { margin-top: 28px; background: #edf2ed; border: 1px solid #e0e8e1; border-radius: 15px; padding: 17px 20px; color: #526763; font-size: .9rem; }
+.module-top { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 28px; }
+.module-top .eyebrow { margin-bottom: 7px; }
+.module-top h1 { font-size: clamp(2rem,4vw,3.15rem); margin: 0 0 9px; }
+.module-top p { color: var(--muted); margin: 0; }
+.tag { display: inline-flex; align-items: center; gap: 7px; background: #e8efe9; color: #48645d; border-radius: 99px; padding: 7px 12px; font-size: .76rem; font-weight: 700; white-space: nowrap; }
+.content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 17px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: calc(18px * var(--site-radius-scale)); padding: 23px; min-width: 0; }
+.panel.wide { grid-column: 1 / -1; }
+.panel-head { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+.panel-head .mini-icon { width: 30px; height: 30px; border-radius: 9px; background: var(--site-secondary); color: var(--site-primary); display: grid; place-items: center; font-size: .9rem; }
+.panel-head h2 { font-size: 1.14rem; margin: 0; letter-spacing: -.025em; }
+.problem { color: #526763; margin: 0; }
+.problem strong { color: var(--site-on-background); }
+.fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+.field label { display: block; font-size: .82rem; font-weight: 700; margin-bottom: 6px; }
+.field input { width: 100%; border: 1px solid #dce5df; border-radius: 10px; background: #fbfcfa; color: var(--site-on-background); padding: 10px 11px; outline: none; }
+.field input:focus { border-color: #6c9a8b; box-shadow: 0 0 0 3px #6c9a8b20; }
+.field small { display: block; color: var(--muted); font-size: .72rem; margin-top: 5px; }
+.formula { background: #f2f6f1; border-radius: 12px; padding: 17px; color: #234a4a; font-family: Georgia,serif; font-size: 1.16rem; text-align: center; overflow-wrap: anywhere; }
+.formula-caption { color: var(--muted); font-size: .8rem; margin: 10px 0 0; text-align: center; }
+.calc-placeholder { border: 1px dashed #cbd9d0; border-radius: 13px; padding: 18px; background: #fbfcfa; }
+.calc-placeholder p { color: var(--muted); font-size: .85rem; margin: 8px 0 14px; }
+.calc-placeholder button { opacity: .55; cursor: not-allowed; }
+.visual-placeholder { min-height: 210px; border-radius: 13px; background: linear-gradient(180deg,#f6f8f5,#edf3ed); display: grid; place-items: center; padding: 18px; text-align: center; color: var(--muted); overflow: hidden; }
+.visual-placeholder svg { width: 100%; max-width: 560px; height: 150px; }
+.visual-placeholder strong { display: block; color: #3e6259; margin-bottom: 4px; }
+.visual-placeholder p { font-size: .8rem; margin: 0; }
+.interpretation { color: var(--muted); font-size: .9rem; margin: 0; }
+.interpretation strong { color: var(--site-on-background); }
+.validation { min-height: 1.3em; color: #a33c32; font-size: .82rem; margin: 10px 0 0; }
+.result-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:11px; }
+.result-card { background:#f1f6f1; border:1px solid #e1eae2; border-radius:13px; padding:14px; min-width:0; }
+.result-card span,.result-card small { display:block; color:var(--muted); font-size:.75rem; }
+.result-card strong { display:block; color:var(--site-primary); font-size:clamp(1.15rem,2vw,1.55rem); margin:7px 0 3px; overflow-wrap:anywhere; }
+.result-card.defect { background:#fbf1ed; border-color:#f0ded6; }.result-card.defect strong { color:#a65340; }
+.result-card.total { background:#eaf0f7; border-color:#dce5ef; }.result-card.total strong { color:#315c7a; }
+.chart-legend { display:flex; flex-wrap:wrap; gap:16px; margin:0 0 12px; color:var(--muted); font-size:.78rem; }
+.legend-dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:5px; background:#34776b; }.legend-dot.lower { background:#d98268; }.legend-dot.upper { background:#d7a34e; }.legend-dot.mean { background:#315c7a; }
+.chart-wrap { background:#fbfcfa; border:1px solid #e8eee8; border-radius:13px; padding:8px; }.chart-wrap svg { width:100%; height:auto; display:block; }
+.back-link { border: 0; background: transparent; color: var(--muted); cursor: pointer; padding: 8px 0; font-weight: 700; }
+.back-link:hover { color: var(--site-primary); }
+footer { border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; padding: 22px 5%; display: flex; justify-content: space-between; gap: 15px; flex-wrap: wrap; max-width: 1220px; margin: auto; }
+@media(max-width:850px) { .hero { grid-template-columns: 1fr; gap: 20px; }.hero-visual { min-height: 250px; }.module-grid { grid-template-columns: 1fr 1fr; } }
+@media(max-width:850px) { .result-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(max-width:620px) { .topbar-inner { align-items: flex-start; flex-direction: column; gap: 12px; }.topbar nav { width: 100%; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 2px; }.topbar nav button { white-space: nowrap; }.module-grid,.content-grid { grid-template-columns: 1fr; }.panel.wide { grid-column: auto; } main { padding-top: 28px; }.module-top { align-items: flex-start; flex-direction: column; }.fields { grid-template-columns: 1fr; }.section-head { align-items: flex-start; flex-direction: column; }.result-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#home" aria-label="Distribution Lab home" onclick="showPage('home');return false;">
+        <span class="brand-mark">∿</span><span>Distribution Lab<small>Industry applications</small></span>
+      </a>
+      <nav aria-label="Main navigation">
+        <button class="active" data-page="home" onclick="showPage('home')">Home</button>
+        <button data-page="normal" onclick="showPage('normal')">Normal</button>
+        <button data-page="exponential" onclick="showPage('exponential')">Exponential</button>
+        <button data-page="clt" onclick="showPage('clt')">Central Limit Theorem</button>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="page active" id="home">
+      <div class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Probability, connected to the real world</div>
+          <h1>Understand uncertainty.<br><span>See it at work.</span></h1>
+          <p class="lead">Explore how continuous probability distributions help engineers make decisions in manufacturing, cloud computing, and warehouse operations.</p>
+          <div class="hero-actions"><button class="primary-btn" onclick="showPage('normal')">Explore the modules <span aria-hidden="true">→</span></button><button class="secondary-btn" onclick="showPage('clt')">Start with CLT</button></div>
+        </div>
+        <div class="hero-visual">
+          <div class="visual-label"><span>A world of distributions</span><span>01 / 03</span></div>
+          <svg viewBox="0 0 520 230" role="img" aria-label="Illustrative probability distribution curves">
+            <path d="M25 190 H495" stroke="#9bb7aa" stroke-width="1.5" fill="none"/><path d="M35 190 C100 190 120 178 160 118 C195 64 220 25 260 25 C300 25 325 64 360 118 C400 178 420 190 485 190" stroke="#245c5a" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M35 190 C85 190 105 154 145 135 C185 116 220 123 260 143 C300 163 335 180 485 190" stroke="#c28d4b" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="7 6"/>
+            <path d="M35 190 C45 185 65 170 90 145 C120 115 150 100 180 100 C220 100 240 135 270 158 C315 190 370 190 485 190" stroke="#6b9583" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <text x="260" y="215" text-anchor="middle" fill="#55736a" font-size="11">Illustrative distribution shapes</text>
+          </svg>
+          <div class="hero-note">A visual introduction to probability</div>
+        </div>
+      </div>
+      <div class="section-head"><div><div class="eyebrow">Learning modules</div><h2>Three concepts. Three industries.</h2></div><p>Choose a module to explore its real-world problem, model, and learning workspace.</p></div>
+      <div class="module-grid">
+        <article class="module-card"><span class="module-number">MODULE 01</span><div class="module-icon">⌁</div><h3>Normal Distribution</h3><p>Understand product measurements and quality variation on a manufacturing line.</p><button class="card-link" onclick="showPage('normal')">Open module <span>→</span></button></article>
+        <article class="module-card"><span class="module-number">MODULE 02</span><div class="module-icon">◷</div><h3>Exponential Distribution</h3><p>Model the waiting time between incoming requests to a cloud service.</p><button class="card-link" onclick="showPage('exponential')">Open module <span>→</span></button></article>
+        <article class="module-card"><span class="module-number">MODULE 03</span><div class="module-icon">▥</div><h3>Central Limit Theorem</h3><p>Explore why averages of warehouse processing times become more predictable.</p><button class="card-link" onclick="showPage('clt')">Open module <span>→</span></button></article>
+      </div>
+      <div class="learning-note"><strong>How to use this lab:</strong> Start with the industry problem, review the formula, and explore the input and visualization areas. Interactive calculations will be added in the next development stage.</div>
+    </section>
+
+    <section class="page" id="normal">
+      <button class="back-link" onclick="showPage('home')">← All modules</button>
+      <div class="module-top"><div><div class="eyebrow">Module 01 · Manufacturing</div><h1>Normal Distribution</h1><p>Manufacturing Quality Control</p></div><span class="tag">Continuous distribution</span></div>
+      <div class="content-grid">
+        <article class="panel"><div class="panel-head"><span class="mini-icon">▤</span><h2>Industry problem</h2></div><p class="problem">A manufacturer produces precision shafts with a <strong>target diameter of 10 mm</strong>. Small production variations affect each shaft. The quality team must estimate how many shafts meet the specification of 9.90 mm to 10.10 mm and how many may be defective.</p></article>
+        <article class="panel"><div class="panel-head"><span class="mini-icon">⚙</span><h2>Input parameters</h2></div><div class="fields"><div class="field"><label for="normal-mean">Mean diameter (μ)</label><input id="normal-mean" type="number" value="10" step="0.01"><small>Average diameter in mm</small></div><div class="field"><label for="normal-sd">Standard deviation (σ)</label><input id="normal-sd" type="number" value="0.05" min="0.000001" step="0.01"><small>Spread in mm; must be positive</small></div><div class="field"><label for="normal-lower">Lower specification limit</label><input id="normal-lower" type="number" value="9.90" step="0.01"><small>Minimum acceptable diameter in mm</small></div><div class="field"><label for="normal-upper">Upper specification limit</label><input id="normal-upper" type="number" value="10.10" step="0.01"><small>Maximum acceptable diameter in mm</small></div><div class="field"><label for="normal-measure">Selected diameter (x)</label><input id="normal-measure" type="number" value="10.02" step="0.01"><small>Diameter for the density calculation, in mm</small></div></div><p id="normal-error" class="validation" role="alert" aria-live="polite"> </p></article>
+        <article class="panel"><div class="panel-head"><span class="mini-icon">ƒ</span><h2>Mathematical formulas</h2></div><div class="formula">f(x) = 1 / (σ√2π) · e<sup>−(x−μ)² / 2σ²</sup></div><p class="formula-caption">Density at selected diameter x</p><div class="formula" style="margin-top:14px">P(a ≤ X ≤ b) = Φ((b−μ)/σ) − Φ((a−μ)/σ)</div><p class="formula-caption">Φ is the standard normal cumulative distribution function (CDF)</p><div class="formula" style="margin-top:14px">P(defective) = P(X &lt; LSL) + P(X &gt; USL)</div></article>
+        <article class="panel wide"><div class="panel-head"><span class="mini-icon">∑</span><h2>Interactive quality calculations</h2></div><p class="formula-caption" style="margin:0 0 15px">All probabilities use the Normal CDF. Results update as soon as a valid input changes.</p><div class="result-grid"><div class="result-card"><span>Density at selected x</span><strong id="normal-density">—</strong><small>per mm</small></div><div class="result-card"><span>Within specification</span><strong id="normal-within">—</strong><small id="normal-within-pct">—</small></div><div class="result-card defect"><span>Below lower limit</span><strong id="normal-below">—</strong><small>Probability</small></div><div class="result-card defect"><span>Above upper limit</span><strong id="normal-above">—</strong><small>Probability</small></div><div class="result-card total"><span>Expected defective products</span><strong id="normal-defect">—</strong><small>Percentage of production</small></div></div><p class="formula-caption" style="margin-top:13px">Density: f(x) = <span id="normal-density-formula">—</span> · Acceptable probability: Φ(z<sub>USL</sub>) − Φ(z<sub>LSL</sub>)</p></article>
+        <article class="panel wide"><div class="panel-head"><span class="mini-icon">⌁</span><h2>Dynamic distribution visualization</h2></div><div class="chart-legend"><span><i class="legend-dot acceptable"></i> Acceptable range</span><span><i class="legend-dot lower"></i> Below LSL</span><span><i class="legend-dot upper"></i> Above USL</span><span><i class="legend-dot mean"></i> Mean</span></div><div class="chart-wrap"><svg id="normal-chart" viewBox="0 0 760 300" role="img" aria-label="Normal density curve with acceptable and defective regions"></svg></div><p class="formula-caption">Diameter (mm) · Curve height represents probability density, not probability at a single point.</p></article>
+        <article class="panel wide"><div class="panel-head"><span class="mini-icon">✦</span><h2>Quality-control interpretation</h2></div><p class="interpretation" id="normal-interpretation" aria-live="polite">The interpretation will update with the calculated results.</p></article>
+      </div>
+    </section>
+
+    <section class="page" id="exponential">
+      <button class="back-link" onclick="showPage('home')">← All modules</button>
+      <div class="module-top"><div><div class="eyebrow">Module 02 · Cloud computing</div><h1>Exponential Distribution</h1><p>Cloud Request Inter-arrival Time</p></div><span class="tag">Continuous waiting time</span></div>
+      <div class="content-grid">
+        <article class="panel"><div class="panel-head"><span class="mini-icon">☁</span><h2>Industry problem</h2></div><p class="problem">A cloud application receives independent user requests at an illustrative average rate of <strong>λ = 12 requests per minute</strong>. The operations team studies the time between consecutive request arrivals to understand traffic patterns. This model describes <strong>inter-arrival time</strong>, not server response time.</p><p class="formula-caption" style="text-align:left">Assumption: requests follow a constant-rate Poisson arrival process.</p></article>
+        <article class="panel"><div class="panel-head"><span class="mini-icon">⚙</span><h2>Input parameters</h2></div><div class="fields"><div class="field"><label for="exp-rate">Arrival rate (λ)</label><input id="exp-rate" type="number" value="12" min="0.000001" step="0.5"><small>Requests per minute; must be positive</small></div><div class="field"><label for="exp-time">Time threshold (t)</label><input id="exp-time" type="number" value="5" min="0" step="0.5"><small>Seconds; must be non-negative</small></div><div class="field"><label for="exp-t1">Elapsed time (t₁)</label><input id="exp-t1" type="number" value="5" min="0" step="0.5"><small>Seconds for conditional probability</small></div><div class="field"><label for="exp-t2">Later time (t₂)</label><input id="exp-t2" type="number" value="10" min="0" step="0.5"><small>Seconds; must be at least t₁</small></div></div><p id="exp-error" class="validation" role="alert" aria-live="polite"> </p></article>
+        <article class="panel"><div class="panel-head"><span class="mini-icon">ƒ</span><h2>Mathematical formulas</h2></div><div class="formula">f(t) = λe<sup>−λt</sup>, &nbsp; t ≥ 0</div><p class="formula-caption">Density with λ expressed per second</p><div class="formula" style="margin-top:12px">E[T] = 1/λ &nbsp; · &nbsp; Var(T) = 1/λ²</div><p class="formula-caption">Mean in seconds; variance in seconds²</p><div class="formula" style="margin-top:12px">P(T ≤ t) = 1 − e<sup>−λt</sup> &nbsp; · &nbsp; P(T &gt; t) = e<sup>−λt</sup></div><p class="formula-caption">For conditional survival: P(T &gt; t₂ | T &gt; t₁) = e<sup>−λ(t₂−t₁)</sup></p><p class="formula-caption">Convert λ from requests/minute to requests/second by dividing by 60.</p></article>
+        <article class="panel"><div class="panel-head"><span class="mini-icon">∑</span><h2>Interactive calculations</h2></div><div class="result-grid" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div class="result-card"><span>Mean inter-arrival time</span><strong id="exp-mean">—</strong><small>seconds</small></div><div class="result-card"><span>Variance</span><strong id="exp-variance">—</strong><small>seconds²</small></div><div class="result-card total"><span>P(T ≤ t)</span><strong id="exp-cdf">—</strong><small>Probability by threshold</small></div><div class="result-card"><span>P(T &gt; t)</span><strong id="exp-survival">—</strong><small>Probability beyond threshold</small></div><div class="result-card" style="grid-column:1/-1"><span>P(T &gt; t₂ | T &gt; t₁)</span><strong id="exp-conditional">—</strong><small id="exp-conditional-note">Conditional probability</small></div></div><p class="formula-caption" id="exp-conversion" style="margin-top:12px">—</p></article>
+        <article class="panel wide"><div class="panel-head"><span class="mini-icon">◷</span><h2>Exponential density visualization</h2></div><div class="chart-legend"><span><i class="legend-dot acceptable"></i> P(T ≤ t)</span><span><i class="legend-dot upper"></i> P(T &gt; t)</span></div><div class="chart-wrap"><svg id="exp-chart" viewBox="0 0 760 300" role="img" aria-label="Exponential probability density curve with probability shaded before and after the selected time"></svg></div><p class="formula-caption">Inter-arrival time (seconds) · Curve height is probability density per second; shaded areas represent probabilities.</p></article>
+        <article class="panel wide"><div class="panel-head"><span class="mini-icon">✦</span><h2>Memoryless property and interpretation</h2></div><p class="interpretation" id="exp-interpretation" aria-live="polite">—</p><p class="learning-note"><strong>Memoryless property:</strong> If no request has arrived yet, the distribution of the additional waiting time is the same as it was at the start. In other words, having already waited t₁ seconds does not change the probability of waiting at least another t₂ − t₁ seconds.</p></article>
+      </div>
+    </section>
+
+    <section class="page" id="clt">
+      <button class="back-link" onclick="showPage('home')">← All modules</button>
+      <div class="module-top"><div><div class="eyebrow">Module 03 · Warehouse operations</div><h1>Central Limit Theorem</h1><p>Warehouse Processing Time</p></div><span class="tag">Sampling distribution</span></div>
+      <div class="content-grid">
+        <article class="panel"><div class="panel-head"><span class="mini-icon">▥</span><h2>Industry problem</h2></div><p class="problem">A warehouse tracks the time needed to pick, pack, and prepare an order for dispatch. Individual order times can vary widely. Managers study <strong>the average processing time across groups of orders</strong> to plan staffing and daily workloads.</p></article>
+        <article class="panel"><div class="panel-head"><span class="mini-icon">⚙</span><h2>Input parameters</h2></div><div class="fields"><div class="field"><label for="clt-mean">Population mean (μ)</label><input id="clt-mean" type="number" value="18" step="0.5"><small>Average processing time in minutes</small></div><div class="field"><label for="clt-sd">Population standard deviation (σ)</label><input id="clt-sd" type="number" value="6" min="0.01" step="0.5"><small>Variation in minutes</small></div><div class="field"><label for="clt-n">Sample size (n)</label><input id="clt-n" type="number" value="30" min="2" step="1"><small>Orders in each sample group</small></div><div class="field"><label for="clt-samples">Number of sample groups</label><input id="clt-samples" type="number" value="100" min="1" step="1"><small>Groups to compare in the study</small></div></div></article>
+        <article class="panel"><div class="panel-head"><span class="mini-icon">ƒ</span><h2>Mathematical formula</h2></div><div class="formula">X̄ ≈ N(μ, σ²/n)<br><span style="font-size:.92rem">SE = σ / √n</span></div><p class="formula-caption">X̄ = sample mean · SE = standard error · n = sample size</p></article>
+        <article class="panel"><div class="panel-head"><span class="mini-icon">∑</span><h2>Interactive calculation</h2></div><div class="calc-placeholder"><strong>Warehouse sample workspace</strong><p>Choose the number of orders in each sample and the number of sample groups. Explore how averages behave as sample size changes. Calculation controls will be enabled in the next stage.</p><button class="primary-btn" disabled>Explore sample means · Coming next</button></div></article>
+        <article class="panel wide"><div class="panel-head"><span class="mini-icon">▥</span><h2>Distribution visualization</h2></div><div class="visual-placeholder"><svg viewBox="0 0 600 160" role="img" aria-label="Illustrative sampling distribution becoming bell shaped"><path d="M20 135 H580" stroke="#a8b9ae"/><path d="M35 135 C90 135 115 115 150 105 C185 95 210 117 245 130 C290 146 325 110 350 70 C375 30 405 17 430 17 C455 17 485 40 505 82 C525 120 540 135 565 135" fill="none" stroke="#34776b" stroke-width="3" stroke-dasharray="6 5"/><path d="M35 135 C170 135 220 130 255 88 C275 62 290 24 310 24 C330 24 345 62 365 88 C400 130 450 135 565 135" fill="none" stroke="#c28d4b" stroke-width="4" stroke-linecap="round"/><text x="310" y="155" text-anchor="middle" font-size="10" fill="#647775">Sample means</text></svg><div><strong>Sampling distribution preview</strong><p>The visualization will demonstrate how the distribution of sample means changes with sample size.</p></div></div></article>
+        <article class="panel wide"><div class="panel-head"><span class="mini-icon">✦</span><h2>Interpretation of results</h2></div><p class="interpretation">The Central Limit Theorem explains that, under suitable conditions, averages from sufficiently large independent samples tend to follow an approximately normal distribution—even when individual processing times are not normally distributed. <strong>Numerical interpretation will appear after calculations are implemented.</strong></p></article>
+      </div>
+    </section>
+  </main>
+  <footer><span>Continuous Probability Distributions · Industry Applications</span><span>Undergraduate AIML Learning Lab</span></footer>
+</div>
+<script>
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(page => page.classList.toggle('active', page.id === pageId));
+  document.querySelectorAll('nav button').forEach(button => button.classList.toggle('active', button.dataset.page === pageId));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Abramowitz-Stegun approximation of erf, used to evaluate the standard normal CDF.
+function erfApprox(x) {
+  const sign = x < 0 ? -1 : 1, a = Math.abs(x), t = 1 / (1 + 0.3275911 * a);
+  const y = 1 - (((((1.061405429*t - 1.453152027)*t) + 1.421413741)*t - 0.284496736)*t + 0.254829592)*t*Math.exp(-a*a);
+  return sign * y;
+}
+function normalCdf(z) { return 0.5 * (1 + erfApprox(z / Math.sqrt(2))); }
+function normalPdf(x, mu, sigma) { return Math.exp(-0.5 * ((x-mu)/sigma)**2) / (sigma * Math.sqrt(2*Math.PI)); }
+function pct(v) { return (v * 100).toFixed(4) + '%'; }
+function renderNormal() {
+  const get = id => Number(document.getElementById(id).value);
+  const mu=get('normal-mean'), sd=get('normal-sd'), lower=get('normal-lower'), upper=get('normal-upper'), x=get('normal-measure');
+  const error=document.getElementById('normal-error');
+  if (![mu,sd,lower,upper,x].every(Number.isFinite)) { error.textContent='Please enter a valid number in every field.'; return; }
+  if (sd <= 0) { error.textContent='Standard deviation σ must be greater than zero.'; return; }
+  if (lower >= upper) { error.textContent='The lower specification limit must be less than the upper limit.'; return; }
+  error.textContent='';
+  const zL=(lower-mu)/sd, zU=(upper-mu)/sd;
+  const below=normalCdf(zL), above=1-normalCdf(zU), within=normalCdf(zU)-normalCdf(zL), defective=below+above, density=normalPdf(x,mu,sd);
+  document.getElementById('normal-density').textContent=density.toFixed(4);
+  document.getElementById('normal-within').textContent=pct(within);
+  document.getElementById('normal-within-pct').textContent=within.toFixed(6)+' probability';
+  document.getElementById('normal-below').textContent=pct(below);
+  document.getElementById('normal-above').textContent=pct(above);
+  document.getElementById('normal-defect').textContent=pct(defective);
+  document.getElementById('normal-density-formula').textContent=density.toFixed(4)+' mm⁻¹';
+  document.getElementById('normal-interpretation').innerHTML='For a process with mean <strong>'+mu.toFixed(3)+' mm</strong> and standard deviation <strong>'+sd.toFixed(3)+' mm</strong>, approximately <strong>'+pct(within)+'</strong> of shafts are expected to meet the '+lower.toFixed(3)+'–'+upper.toFixed(3)+' mm specification. About <strong>'+pct(defective)+'</strong> may be defective: '+pct(below)+' below the lower limit and '+pct(above)+' above the upper limit. The selected diameter '+x.toFixed(3)+' mm has a density of '+density.toFixed(4)+' per mm. Density is a curve height; probabilities come from areas under the curve.';
+  drawNormalChart(mu,sd,lower,upper,x);
+}
+function drawNormalChart(mu,sd,lower,upper,x) {
+  const svg=document.getElementById('normal-chart'), left=55,right=735,top=18,bottom=245;
+  const min=Math.min(mu-4*sd,lower-0.6*sd,x-0.6*sd), max=Math.max(mu+4*sd,upper+0.6*sd,x+0.6*sd);
+  const peak=normalPdf(mu,mu,sd), yMax=peak*1.16;
+  const sx=v=>left+(v-min)/(max-min)*(right-left), sy=v=>bottom-v/yMax*(bottom-top);
+  const points=Array.from({length:241},(_,i)=>min+(max-min)*i/240);
+  const curve=points.map((v,i)=>(i?'L':'M')+sx(v).toFixed(2)+','+sy(normalPdf(v,mu,sd)).toFixed(2)).join(' ');
+  const area=(a,b)=>{const pts=points.filter(v=>v>a&&v<b);const vals=[a,...pts,b];return 'M'+sx(a)+','+bottom+' '+vals.map(v=>'L'+sx(v).toFixed(2)+','+sy(normalPdf(v,mu,sd)).toFixed(2)).join(' ')+' L'+sx(b)+','+bottom+' Z';};
+  const ticks=Array.from({length:5},(_,i)=>min+(max-min)*i/4);
+  const tickMarkup=ticks.map(v=>'<line x1="'+sx(v)+'" y1="'+bottom+'" x2="'+sx(v)+'" y2="'+(bottom+5)+'" stroke="#91a69a"/><text x="'+sx(v)+'" y="'+(bottom+22)+'" text-anchor="middle" font-size="11" fill="#647775">'+v.toFixed(3)+'</text>').join('');
+  svg.innerHTML='<defs><clipPath id="normal-plot"><rect x="'+left+'" y="'+top+'" width="'+(right-left)+'" height="'+(bottom-top)+'"/></clipPath></defs><path d="'+area(min,lower)+'" fill="#d98268" opacity=".42"/><path d="'+area(lower,upper)+'" fill="#75ad91" opacity=".48"/><path d="'+area(upper,max)+'" fill="#d7a34e" opacity=".48"/><g clip-path="url(#normal-plot)"><path d="'+curve+'" fill="none" stroke="#245c5a" stroke-width="3.2" stroke-linecap="round"/><line x1="'+sx(mu)+'" y1="'+top+'" x2="'+sx(mu)+'" y2="'+bottom+'" stroke="#315c7a" stroke-width="2" stroke-dasharray="6 5"/><line x1="'+sx(x)+'" y1="'+sy(normalPdf(x,mu,sd))+'" x2="'+sx(x)+'" y2="'+bottom+'" stroke="#7256a5" stroke-width="2" stroke-dasharray="3 4"/><circle cx="'+sx(x)+'" cy="'+sy(normalPdf(x,mu,sd))+'" r="4.5" fill="#7256a5"/></g><path d="M'+left+' '+bottom+' H'+right+'" stroke="#91a69a" fill="none"/>'+tickMarkup+'<text x="'+sx(lower)+'" y="'+(top+13)+'" text-anchor="middle" font-size="11" fill="#a65340">LSL</text><text x="'+sx(upper)+'" y="'+(top+13)+'" text-anchor="middle" font-size="11" fill="#a47738">USL</text><text x="'+sx(mu)+'" y="'+(bottom-8)+'" text-anchor="middle" font-size="10" fill="#315c7a">μ</text><text x="'+((left+right)/2)+'" y="292" text-anchor="middle" font-size="12" fill="#526763">Shaft diameter (mm)</text>';
+}
+['normal-mean','normal-sd','normal-lower','normal-upper','normal-measure'].forEach(id=>document.getElementById(id).addEventListener('input',renderNormal));
+renderNormal();
+
+function renderExponential() {
+  const raw=['exp-rate','exp-time','exp-t1','exp-t2'].map(id=>document.getElementById(id).value.trim());
+  const rate=Number(raw[0]), t=Number(raw[1]), t1=Number(raw[2]), t2=Number(raw[3]);
+  const error=document.getElementById('exp-error');
+  if (raw.some(v=>v==='') || ![rate,t,t1,t2].every(Number.isFinite)) { error.textContent='Please enter a valid number in every field.'; return; }
+  if (rate<=0) { error.textContent='Arrival rate λ must be greater than zero.'; return; }
+  if (t<0 || t1<0 || t2<0) { error.textContent='All time values must be zero or greater.'; return; }
+  if (t2<t1) { error.textContent='Later time t₂ must be greater than or equal to t₁.'; return; }
+  error.textContent='';
+  const lambda=rate/60, mean=1/lambda, variance=1/(lambda*lambda), cdf=1-Math.exp(-lambda*t), survival=Math.exp(-lambda*t), conditional=Math.exp(-lambda*(t2-t1));
+  document.getElementById('exp-mean').textContent=mean.toFixed(4);
+  document.getElementById('exp-variance').textContent=variance.toFixed(4);
+  document.getElementById('exp-cdf').textContent=cdf.toFixed(6)+' ('+(cdf*100).toFixed(3)+'%)';
+  document.getElementById('exp-survival').textContent=survival.toFixed(6)+' ('+(survival*100).toFixed(3)+'%)';
+  document.getElementById('exp-conditional').textContent=conditional.toFixed(6)+' ('+(conditional*100).toFixed(3)+'%)';
+  document.getElementById('exp-conditional-note').textContent='Chance of waiting another '+(t2-t1).toFixed(2)+' s after already waiting '+t1.toFixed(2)+' s';
+  document.getElementById('exp-conversion').textContent='λ = '+rate.toFixed(4)+' requests/min ÷ 60 = '+lambda.toFixed(6)+' requests/s. Mean = '+mean.toFixed(4)+' s; variance = '+variance.toFixed(4)+' s².';
+  document.getElementById('exp-interpretation').innerHTML='At '+rate.toFixed(2)+' requests per minute, the average inter-arrival time is <strong>'+mean.toFixed(3)+' seconds</strong>. The probability that the next request arrives within '+t.toFixed(2)+' seconds is <strong>'+(cdf*100).toFixed(2)+'%</strong>; the probability it takes longer is <strong>'+(survival*100).toFixed(2)+'%</strong>. Given that '+t1.toFixed(2)+' seconds have already passed without an arrival, the chance of waiting beyond '+t2.toFixed(2)+' seconds total (another '+(t2-t1).toFixed(2)+' seconds) is <strong>'+(conditional*100).toFixed(2)+'%</strong>. These are inter-arrival-time probabilities, not estimates of server response time.';
+  drawExponentialChart(lambda,t);
+}
+function drawExponentialChart(lambda,t) {
+  const svg=document.getElementById('exp-chart'), left=55,right=735,top=20,bottom=245, maxTime=Math.max(5/lambda,t*1.8,1);
+  const sx=v=>left+v/maxTime*(right-left), peak=lambda, sy=v=>bottom-v/(peak*1.12)*(bottom-top), pts=Array.from({length:241},(_,i)=>maxTime*i/240);
+  const curve=pts.map((v,i)=>(i?'L':'M')+sx(v).toFixed(2)+','+sy(lambda*Math.exp(-lambda*v)).toFixed(2)).join(' ');
+  const area=(a,b)=>{const arr=pts.filter(v=>v>a&&v<b), vals=[a,...arr,b];return 'M'+sx(a)+','+bottom+' '+vals.map(v=>'L'+sx(v).toFixed(2)+','+sy(lambda*Math.exp(-lambda*v)).toFixed(2)).join(' ')+' L'+sx(b)+','+bottom+' Z';};
+  const cut=Math.max(0,Math.min(t,maxTime)), ticks=Array.from({length:5},(_,i)=>maxTime*i/4);
+  const tickMarkup=ticks.map(v=>'<line x1="'+sx(v)+'" y1="'+bottom+'" x2="'+sx(v)+'" y2="'+(bottom+5)+'" stroke="#91a69a"/><text x="'+sx(v)+'" y="'+(bottom+22)+'" text-anchor="middle" font-size="11" fill="#647775">'+v.toFixed(1)+'</text>').join('');
+  svg.innerHTML='<path d="'+area(0,cut)+'" fill="#75ad91" opacity=".5"/><path d="'+area(cut,maxTime)+'" fill="#d7a34e" opacity=".5"/><path d="'+curve+'" fill="none" stroke="#245c5a" stroke-width="3.2" stroke-linecap="round"/><line x1="'+sx(cut)+'" y1="'+top+'" x2="'+sx(cut)+'" y2="'+bottom+'" stroke="#315c7a" stroke-width="2" stroke-dasharray="6 5"/><path d="M'+left+' '+bottom+' H'+right+'" stroke="#91a69a" fill="none"/>'+tickMarkup+'<text x="'+sx(cut)+'" y="'+(top+13)+'" text-anchor="middle" font-size="11" fill="#315c7a">t = '+t.toFixed(2)+' s</text><text x="'+((left+right)/2)+'" y="292" text-anchor="middle" font-size="12" fill="#526763">Inter-arrival time (seconds)</text>';
+}
+['exp-rate','exp-time','exp-t1','exp-t2'].forEach(id=>document.getElementById(id).addEventListener('input',renderExponential));
+renderExponential();
+</script>
+</body>
+</html>
